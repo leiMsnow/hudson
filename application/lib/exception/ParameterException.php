@@ -2,22 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: wecash
- * Date: 04/03/2018
- * Time: 22:09
+ * Date: 05/03/2018
+ * Time: 12:05
  */
 
 namespace app\lib\exception;
 
 
-use Exception;
-
-class BaseException extends Exception
+class ParameterException extends BaseException
 {
     // HTTP 状态码
     public $code = 400;
     // 错误信息
-    public $msg = 'INVALID REQUEST';
+    public $msg = 'INVALID PARAMETER';
     // 自定义错误码
     public $errorCode = 10000;
-
 }

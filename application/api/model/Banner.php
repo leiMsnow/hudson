@@ -17,12 +17,13 @@ class Banner
     //TODO: 根据bannerID获取banner信息
     public static function getBannerByID($id)
     {
-        try {
-            1 / 0;
-        } catch (Exception $ex) {
-            throw $ex;
-        }
-        return "banner info";
+//        try {
+//            1 / 0;
+//        } catch (Exception $ex) {
+//            throw $ex;
+//        }
+//        return "banner info";
+        return '';
     }
 
 }

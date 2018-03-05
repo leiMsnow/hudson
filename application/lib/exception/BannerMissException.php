@@ -11,10 +11,10 @@ namespace app\lib\exception;
 
 class BannerMissException extends BaseException
 {
-// HTTP 状态码
+    // HTTP 状态码
     public $code = 404;
     // 错误信息
-    public $msg = 'banner info does not exist';
-    // 自电柜错误码
+    public $msg = 'BANNER INFO DOES NOT EXIST';
+    // 自定义错误码
     public $errorCode = 40000;
 }
