@@ -13,7 +13,6 @@ use function config;
 use Exception;
 use function json;
 use think\exception\Handle;
-use think\facade\Config;
 use think\facade\Request;
 use think\facade\Log;
 
@@ -37,7 +36,7 @@ class ExceptionHandler extends Handle
                 return parent::render($e);
             } else {
                 $this->code = 500;
-                $this->msg = 'INTERNAL SERVER ERROR';
+                $this->msg = '服务器内部错误';
                 $this->errorCode = 999;
                 // 日志记录
                 $this->recordErrorLog($e);
@@ -53,7 +52,7 @@ class ExceptionHandler extends Handle
         return json($result, $this->code);
     }
 
-    private function recordErrorLog(Exception $e)
+    private function recordErrorLog(  $e)
     {
         Log::init([
             'type' => 'File',
