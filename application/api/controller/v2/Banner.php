@@ -6,7 +6,7 @@
  * Time: 16:22
  */
 
-namespace app\api\controller\v1;
+namespace app\api\controller\v2;
 
 
 use app\api\validate\IDMustBePositiveInt;
@@ -19,20 +19,21 @@ class Banner
 
     /**
      * 获取指定Id的banner信息
-     * @url /api/v1/banner/:id
+     * @url /api/v2/banner/:id
      * @http GET
      * @id banner的Id
      */
     public function getBanner($id)
     {
 
-        (new IDMustBePositiveInt)->goCheck();
-
-        $banner = BannerModel::getBannerByID($id);
-         if (!$banner) {
-            throw new MissingBannerException();
-        }
-        return json($banner);
+//        (new IDMustBePositiveInt)->goCheck();
+//
+//        $banner = BannerModel::getBannerByID($id);
+//         if (!$banner) {
+//            throw new MissingBannerException();
+//        }
+//        return json($banner);
+        return 'hello';
 
     }
 

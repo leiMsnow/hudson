@@ -24,15 +24,22 @@ class BaseValidate extends Validate
         if (!$result) {
             $e = new ParameterException([
                 'msg' => $this->error,
-//                'code' => 400,
-//                'errorCode' => 10002
             ]);
-//            $e->msg = $this->error;
-//            $e->errorCode = 10002;
             throw $e;
         } else {
             return true;
         }
+    }
+
+    protected function isPositiveInteger($value, $rule = '', $data = '', $field = '')
+    {
+
+        if (is_numeric($value) && is_int($value + 0) && ($value + 0) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }
