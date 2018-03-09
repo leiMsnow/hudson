@@ -19,6 +19,8 @@ Route::get('api/:version/product/byCategory/:id','api/:version.Product/getAllInC
 
 Route::get('api/:version/category/all','api/:version.Category/getAllCategories');
 
+Route::post('api/:version/token/user','api/:version.Token/getToken');
+
 return [
 
 ];

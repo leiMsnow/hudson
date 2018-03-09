@@ -7,5 +7,6 @@
  */
 
 return [
-    'img_prefix' => 'http://hudson.com/images'
+    'img_prefix' => 'http://hudson.com/images',
+    'token_expire_in' => '3600'
 ];
