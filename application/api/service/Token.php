@@ -9,8 +9,15 @@
 namespace app\api\service;
 
 
+use app\lib\exception\TokenException;
+use function array_key_exists;
 use function config;
+use function is_array;
+use function json_decode;
 use function md5;
+use Exception;
+use think\facade\Cache;
+use think\facade\Request;
 
 class Token
 {
@@ -25,5 +32,30 @@ class Token
 
 
         return md5($randChars . $timestamp . $salt);
+    }
+
+    public static function getCurrentTokenVar($key)
+    {
+        $token = Request::instance()->header('token');
+        $vars = Cache::get($token);
+        if (!$vars) {
+            throw new TokenException();
+        } else {
+
+            if (!is_array($vars))
+                $vars = json_decode($vars, true);
+
+            if (array_key_exists($key, $vars))
+                return $vars[$key];
+            else
+                throw new Exception('尝试获取Token变量不存在');
+        }
+    }
+
+
+    public static function getCurrentUID()
+    {
+        $uid = self::getCurrentTokenVar('uid');
+        return $uid;
     }
 }

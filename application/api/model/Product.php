@@ -2,7 +2,6 @@
 
 namespace app\api\model;
 
-use think\Model;
 
 class Product extends BaseModel
 {
@@ -23,7 +22,29 @@ class Product extends BaseModel
 
     public static function getProductByCategoryID($id)
     {
-        $products = self::where('category_id',$id)->select();
+        $products = self::where('category_id', $id)->select();
         return $products;
+    }
+
+    public function imgs()
+    {
+        return $this->hasMany('ProductImage', 'product_id', 'id');
+    }
+
+    public function properties()
+    {
+        return $this->hasMany('ProductProperty', 'product_id', 'id');
+    }
+
+    public static function getProductDetail($id)
+    {
+
+        $product = self::with([
+            'imgs' => function ($query) {
+                $query->with(['imgUrl'])->order('order', 'asc');
+            }
+        ])->with(['properties'])->find($id);
+
+        return $product;
     }
 }
