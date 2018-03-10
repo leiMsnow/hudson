@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: wecash
- * Date: 08/03/2018
- * Time: 11:24
+ * Created by 七月
+ * Author: 七月
+ * Date: 2017/2/18
+ * Time: 13:47
  */
 
 namespace app\lib\exception;
@@ -11,10 +11,7 @@ namespace app\lib\exception;
 
 class CategoryException extends BaseException
 {
-    // HTTP 状态码
     public $code = 404;
-    // 错误信息
-    public $msg = '分类信息不存在';
-    // 自定义错误码
-    public $errorCode = 50000;
+    public $msg = '指定类目不存在，请检查商品ID';
+    public $errorCode = 20000;
 }

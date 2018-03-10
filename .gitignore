@@ -1,5 +1,7 @@
-.idea
 composer.lock
 *.log
-thinkphp
-runtime
+/*.sh
+/.idea
+/.svn
+/application/extra/setting.php
+/application/extra/secure.php

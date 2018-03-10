@@ -1,18 +1,15 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: wecash
- * Date: 07/03/2018
- * Time: 18:41
+ * Created by 七月
+ * User: 七月
+ * Date: 2017/2/18
+ * Time: 12:35
  */
-
 namespace app\api\validate;
-
 
 class Count extends BaseValidate
 {
     protected $rule = [
-        'count' => 'isPositiveInteger|between:1,30'
+        'count' => 'isPositiveInteger|between:1,15',
     ];
-
 }

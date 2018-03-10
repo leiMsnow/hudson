@@ -1,27 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wecash
- * Date: 04/03/2018
- * Time: 21:37
- */
 
 namespace app\api\model;
 
+use think\Model;
 
 class Banner extends BaseModel
 {
-    protected $hidden = ['update_time', 'delete_time'];
-
-    public function items(){
-        return $this->hasMany('BannerItem', 'banner_id','id');
-    }
-
-    protected $table = 'banner';
-    public static function getBannerByID($id)
+    public function items()
     {
-        $banner = self::with(['items','items.img'])->find($id);
+        return $this->hasMany('BannerItem', 'banner_id', 'id');
+    }
+    //
+
+    /**
+     * @param $id int banner所在位置
+     * @return Banner
+     */
+    public static function getBannerById($id)
+    {
+        $banner = self::with(['items','items.img'])
+            ->find($id);
+
+//         $banner = BannerModel::relation('items,items.img')
+//             ->find($id);
         return $banner;
     }
-
 }

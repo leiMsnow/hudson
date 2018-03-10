@@ -1,39 +1,47 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: wecash
- * Date: 04/03/2018
- * Time: 16:22
+ * Created by 七月
+ * User: 七月
+ * Date: 2017/2/15
+ * Time: 13:40
  */
 
 namespace app\api\controller\v1;
 
 
+use app\api\controller\BaseController;
 use app\api\validate\IDMustBePositiveInt;
 use app\api\model\Banner as BannerModel;
-use app\lib\exception\MissingBannerException;
-use function json;
+use app\lib\exception\MissException;
 
-class Banner
+/**
+ * Banner资源
+ */ 
+class Banner extends BaseController
 {
+//    protected $beforeActionList = [
+//        'checkPrimaryScope' => ['only' => 'getBanner']
+//    ];
 
     /**
-     * 获取指定Id的banner信息
-     * @url /api/v1/banner/:id
-     * @http GET
-     * @id banner的Id
+     * 获取Banner信息
+     * @url     /banner/:id
+     * @http    get
+     * @param   int $id banner id
+     * @return  array of banner item , code 200
+     * @throws  MissException
      */
     public function getBanner($id)
     {
-
-        (new IDMustBePositiveInt)->goCheck();
-
-        $banner = BannerModel::getBannerByID($id);
-         if (!$banner) {
-            throw new MissingBannerException();
+        $validate = new IDMustBePositiveInt();
+        $validate->goCheck();
+        $banner = BannerModel::getBannerById($id);
+        if (!$banner ) {
+            throw new MissException([
+                'msg' => '请求banner不存在',
+                'errorCode' => 40000
+            ]);
         }
-        return json($banner);
-
+        return $banner;
     }
-
 }

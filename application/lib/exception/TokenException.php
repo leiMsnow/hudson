@@ -1,20 +1,19 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: wecash
- * Date: 09/03/2018
- * Time: 12:55
+ * Created by 七月.
+ * User: 七月
+ * Date: 2017/2/14 我去，情人节，886214
+ * Time: 1:03
  */
 
 namespace app\lib\exception;
 
-
+/**
+ * token验证失败时抛出此异常 
+ */
 class TokenException extends BaseException
 {
-    // HTTP 状态码
     public $code = 401;
-    // 错误信息
-    public $msg = 'Token已过期或者无效';
-    // 自定义错误码
-    public $errorCode = 10002;
+    public $msg = 'Token已过期或无效Token';
+    public $errorCode = 10001;
 }

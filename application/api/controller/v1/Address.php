@@ -1,69 +1,86 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: wecash
- * Date: 09/03/2018
- * Time: 15:34
+ * Created by 七月.
+ * Author: 七月
+ * 微信公号：小楼昨夜又秋风
+ * 知乎ID: 七月在夏天
+ * Date: 2017/2/23
+ * Time: 2:56
  */
 
 namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
-use app\api\validate\AddressNew;
-
+use app\api\model\User;
+use app\api\model\UserAddress;
+use app\api\service\Token;
 use app\api\service\Token as TokenService;
-use app\api\model\User as UserModel;
-use app\lib\enum\ScopeEnum;
-use app\lib\exception\ForbiddenException;
-use app\lib\message\SuccessMessage;
+use app\api\validate\AddressNew;
+use app\lib\exception\SuccessMessage;
 use app\lib\exception\UserException;
-use function input;
+use think\Controller;
+use think\Exception;
 
 class Address extends BaseController
 {
     protected $beforeActionList = [
-        'checkPrimaryScope' => ['only' => 'createOrUpdateAddress']
+        'checkPrimaryScope' => ['only' => 'createOrUpdateAddress,getUserAddress']
     ];
-
-    protected function checkPrimaryScope()
-    {
-        $scope = TokenService::getCurrentTokenVar('scope');
-        if ($scope) {
-            if ($scope >= ScopeEnum::User) {
-                return true;
-            } else {
-                throw new ForbiddenException();
-            }
-        } else {
-
+    
+    /**
+     * 获取用户地址信息
+     * @return UserAddress
+     * @throws UserException
+     */
+    public function getUserAddress(){
+        $uid = Token::getCurrentUid();
+        $userAddress = UserAddress::where('user_id', $uid)
+            ->find();
+        if(!$userAddress){
+            throw new UserException([
+               'msg' => '用户地址不存在',
+                'errorCode' => 60001
+            ]);
         }
-}
-
-public
-function createOrUpdateAddress()
-{
-    $validate = new AddressNew();
-    $validate->goCheck();
-
-    $uid = TokenService::getCurrentUID();
-    $user = UserModel::get($uid);
-
-    if (!$user) {
-        throw new UserException();
+        return $userAddress;
     }
 
-    $dataArray = $validate->getDataByRule(input('post.'));
+    /**
+     * 更新或者创建用户收获地址
+     */
+    public function createOrUpdateAddress()
+    {
+        $validate = new AddressNew();
+        $validate->goCheck();
 
-    $userAddress = $user->address;
-
-    if (!$userAddress) {
-        $user->address()->save($dataArray);
-    } else {
-        $user->address->save($dataArray);
+        $uid = TokenService::getCurrentUid();
+        $user = User::get($uid);
+        if(!$user){
+            throw new UserException([
+                'code' => 404,
+                'msg' => '用户收获地址不存在',
+                'errorCode' => 60001
+            ]);
+        }
+        $userAddress = $user->address;
+        // 根据规则取字段是很有必要的，防止恶意更新非客户端字段
+        $data = $validate->getDataByRule(input('post.'));
+        if (!$userAddress )
+        {
+            // 关联属性不存在，则新建
+            $user->address()
+                ->save($data);
+        }
+        else
+        {
+            // 存在则更新
+//            fromArrayToModel($user->address, $data);
+            // 新增的save方法和更新的save方法并不一样
+            // 新增的save来自于关联关系
+            // 更新的save来自于模型
+            $user->address->save($data);
+        }
+        return new SuccessMessage();
     }
-
-    return json(new SuccessMessage(), 201);
-}
-
 }

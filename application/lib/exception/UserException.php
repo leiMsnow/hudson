@@ -1,9 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: wecash
- * Date: 09/03/2018
- * Time: 16:35
+ * Created by 七月.
+ * Author: 七月
+ * 微信公号：小楼昨夜又秋风
+ * 知乎ID: 七月在夏天
+ * Date: 2017/2/25
+ * Time: 16:18
  */
 
 namespace app\lib\exception;
@@ -11,10 +13,7 @@ namespace app\lib\exception;
 
 class UserException extends BaseException
 {
-    // HTTP 状态码
     public $code = 404;
-    // 错误信息
-    public $msg = '用户信息不存在';
-    // 自定义错误码
+    public $msg = '用户不存在';
     public $errorCode = 60000;
 }
